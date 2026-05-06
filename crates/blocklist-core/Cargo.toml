@@ -1,0 +1,28 @@
+[package]
+name = "blocklist-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Shared blocklist normalization, parsing, encoding, and lookup."
+license.workspace = true
+
+[features]
+default = ["lookup"]
+lookup = ["dep:zerotrie"]
+build = ["lookup", "dep:idna", "dep:zerotrie"]
+
+[dependencies]
+idna = { version = "1.1.0", optional = true }
+serde = { version = "1.0.228", features = ["derive"] }
+zerotrie = { version = "0.2.4", default-features = false, features = ["alloc"], optional = true }
+
+[dev-dependencies]
+criterion = "0.7.0"
+serde_json = "1.0.145"
+
+[[bench]]
+name = "blocklist"
+harness = false
+
+[lints]
+workspace = true

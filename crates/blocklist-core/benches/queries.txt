@@ -1,0 +1,6 @@
+www.example.com
+ads.example.com
+safe.example.net
+deep.one.two.three.four.example.org
+tracker.test
+cdn.safe.test

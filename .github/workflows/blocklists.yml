@@ -1,0 +1,46 @@
+name: blocklists
+
+on:
+  schedule:
+    - cron: "0 3 * * 0"
+  workflow_dispatch:
+    inputs:
+      strict:
+        description: "Fail instead of reusing stale artifacts"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@1.93
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/cache@v4
+        with:
+          path: assets
+          key: assets-${{ github.run_id }}
+          restore-keys: assets-
+      - run: cargo test -p blocklist-core -p blocklist-build --all-features
+      - name: Build blocklist artifacts
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ inputs.strict }}" != "true" ]; then
+            cargo run --release -p blocklist-build -- --config blocklists.toml --out assets/ --allow-stale
+          else
+            cargo run --release -p blocklist-build -- --config blocklists.toml --out assets/
+          fi
+      - run: cargo install worker-build && cd crates/edge-doh && worker-build --release
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+      - uses: actions/upload-artifact@v4
+        with:
+          name: blocklist-manifest
+          path: assets/manifest.json
+          retention-days: 90

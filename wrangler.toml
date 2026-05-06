@@ -1,0 +1,16 @@
+name = "edge-doh"
+main = "crates/edge-doh/build/worker/shim.mjs"
+compatibility_date = "2026-05-05"
+
+[build]
+command = "cargo install worker-build && cd crates/edge-doh && worker-build --release"
+
+[assets]
+directory = "./assets"
+binding = "BLOCKLIST_ASSETS"
+
+[vars]
+UPSTREAM_DOH = "https://cloudflare-dns.com/dns-query"
+BLOCKLIST = """
+example-blocked.invalid
+"""

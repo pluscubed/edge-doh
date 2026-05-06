@@ -1,0 +1,6 @@
+/target
+/assets/*.zerotrie
+/assets/manifest.json
+/build/
+/crates/*/build/
+/.wrangler/

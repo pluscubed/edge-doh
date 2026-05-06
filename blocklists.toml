@@ -1,0 +1,22 @@
+schema = 1
+
+[[list]]
+name = "easylist-china"
+url = "https://easylist-downloads.adblockplus.org/easylistchina.txt"
+format = "adblock-plus"
+license = "GPLv3"
+license_url = "https://easylist.to/pages/licence.html"
+
+[[list]]
+name = "oisd-big"
+url = "https://big.oisd.nl/domainswild"
+format = "wildcard-domains"
+license = "OISD"
+license_url = "https://github.com/sjhgvr/oisd/blob/main/LICENSE"
+
+[[list]]
+name = "hagezi-multi"
+url = "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/multi.txt"
+format = "wildcard-domains"
+license = "GPL-3.0"
+license_url = "https://github.com/hagezi/dns-blocklists/blob/main/LICENSE"

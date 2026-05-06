@@ -1,0 +1,14 @@
+# Keep this aligned with `package.rust-version` in `Cargo.toml`.
+msrv = "1.93"
+
+absolute-paths-allowed-crates = [
+    "std",
+]
+
+disallowed-macros = [
+    { path = "std::dbg", reason = "debug output must not be committed" },
+    { path = "std::eprint", reason = "use structured logging once logging is configured" },
+    { path = "std::eprintln", reason = "use structured logging once logging is configured" },
+    { path = "std::print", reason = "use structured logging once logging is configured" },
+    { path = "std::println", reason = "use structured logging once logging is configured" },
+]
